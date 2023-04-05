@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: isis-5
+spec:
+  selector:
+    matchLabels:
+      app: isis-5-label
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: isis-5-label
+    spec:
+      containers:
+        - name: isis5-web
+          image: sneyk0/lab5
+          ports:
+            - containerPort: 1414
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "1000Mi"
+            limits:
+              cpu: "100m"
+              memory: "2000Mi"
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 1414
+            initialDelaySeconds: 5
+            timeoutSeconds: 10
+            periodSeconds: 5
